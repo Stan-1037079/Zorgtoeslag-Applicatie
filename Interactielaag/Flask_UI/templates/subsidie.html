@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/style_login.css') }}">
+    <title>Subsidie</title>
+</head>
+<body>
+    <h1>Welkom op de pagina van Subsidie</h1>
+    <div class="logout-container">
+        <form action="/logout" method="get">
+            <button type="submit">Logout</button>   
+        </form>
+        <div class='goBack-container'>
+            <button class="button" onclick="goBack()">Go Back</button>
+    <script>
+    function goBack() {
+        window.history.back();
+    }
+    </script>
+</body>
+</html>

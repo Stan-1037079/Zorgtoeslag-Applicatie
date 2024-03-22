@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_login.css') }}"> 
+    <title>Form Page</title>
+</head>
+<body>
+    <div class="container">
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <div>{{ form.user_input.label }} {{ form.user_input() }}</div>
+            <div>{{ form.description.label }} {{ form.description() }}</div>
+            <div>{{ form.submit(class='button') }}</div> 
+        </form>
+        <div class="logout-container">
+            <form action="/logout" method="get">
+                <button type="submit" class="button">Logout</button>   
+            </form>
+        </div>
+        <div class='goBack-container'>
+            <button class="button" onclick="goBack()">Go Back</button>
+    </div>
+
+    <script>
+    function goBack() {
+        window.history.back();
+    }
+    </script>
+</body>
+</html>
+
