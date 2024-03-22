@@ -1,0 +1,5 @@
+Start de Open formulieren UI 
+Command in windows powershell: Docker Compose -d 
+Username: Admin
+Password: Password
+Link: http://127.0.0.1:8000/admin/
