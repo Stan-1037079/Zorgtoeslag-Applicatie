@@ -3,7 +3,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
-EXPOSE 5000
-ENV FLASK_APP=Proceslaag/app.py
+EXPOSE 5002
+ENV FLASK_APP=Interactielaag/app.py
 CMD flask run --host=0.0.0.0
 #CMD ["flask", "run", "--host", "0.0.0.0"]

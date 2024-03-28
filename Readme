@@ -3,3 +3,10 @@ Command in windows powershell: Docker Compose -d
 Username: Admin
 Password: Password
 Link: http://127.0.0.1:8000/admin/
+
+Alle ports die worden gebruikt op het netwerk: 
+Port 8000 – Objects API 
+Port 8001 – Objecttype API 
+Port 8002 – Open Forms UI 
+Port 5002 – Flask UI 
+Port 5000 – Flask Logica 
