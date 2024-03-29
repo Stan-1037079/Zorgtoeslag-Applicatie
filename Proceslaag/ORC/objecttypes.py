@@ -2,6 +2,7 @@ import requests
 from conf import urls_tokens
 conf = urls_tokens()
 from json_schema_test import test_data, json_schema_koek
+#from Testen import meta_data, json_schema
 
 def getAllObjecttypes(headers = {"Authorization": "Token " + conf['token_object_types'], "Content-Type": "application/json"}):
     # Stuur een GET-verzoek naar het endpoint voor alle objecttypes
@@ -13,7 +14,10 @@ def getAllObjecttypes(headers = {"Authorization": "Token " + conf['token_object_
         objecttypes = response.json()
         
         for objecttype in objecttypes:
-            print(objecttype)  
+            objecttype_details = [f"{key}: {value}" for key, value in objecttype.items()]
+            # Voeg de details samen met '\n' ertussen en print ze
+            print('\n'.join(objecttype_details))
+            print('\n---\n')  # Voegt een scheiding toe tussen verschillende objecttypes
     else:
         print("Fout bij het ophalen van objecttypes:", response.text)
 
@@ -76,9 +80,22 @@ def deleteObjecttype(objecttype_uuid, versions, headers={"Authorization": "Token
         print(f"Fout bij het verwijderen van objecttype {objecttype_uuid}: {objecttype_response.text}")
         return False
 
-#postObjecttype(test_data, json_schema_koek)
+def patchObjecttype(url, update_data, headers={"Authorization": "Token " + conf['token_object_types'], "Content-Type": "application/json"}):
+    response = requests.patch(url, headers=headers, json=update_data)
+    
+    # Controleer de response status code
+    if response.status_code in [200, 204]:  # Succesvolle respons kan variëren; 200 OK of 204 No Content
+        print(f"Objecttype succesvol bijgewerkt op URL {url}.")
+        return True
+    else:
+        print(f"Fout bij het bijwerken van objecttype op URL {url}: {response.text}")
+        return False
+
+#postObjecttype(meta_data, json_schema)
 #getAllObjecttypes()
 #getAllObjecttypesUID()
-    
+
 #Geef UUID en versies van objecttypes mee aan de deleteObjecttype functie (gebruik de functie getAllObjecttypesUID() om deze informatie op te halen
 #deleteObjecttype("33ecd272-61e9-4af8-9afc-16f660627a28", ["http://localhost:8001/api/v1/objecttypes/33ecd272-61e9-4af8-9afc-16f660627a28/versions/1"])
+#Geef de URL van het objecttype met UUID en vervolgens geef je aan welke data in de json aangepast moet worden, om deze data van de Json op te halen kan je de funtie getAllObjecttypes() gebruiken
+#patchObjecttype(conf["base_url_object_types"] + "/objecttypes/f0d053fb-e00d-40e5-a810-56a8ae89901d", {"name": "Koek", "namePlural": "Koekjes"})

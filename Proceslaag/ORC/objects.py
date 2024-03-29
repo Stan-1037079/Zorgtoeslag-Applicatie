@@ -48,7 +48,6 @@ def Postobject(token_objects, objecttype_uuid, object_data,base_url_objects):
         "Authorization": f"Token {token_objects}",
         "Content-Type": "application/json"
     }
-
     # Object aanmaken binnen het objecttype
     response = requests.post(f"{base_url}/objects", headers=headers, json=object_data)
     if response.status_code == 201:
