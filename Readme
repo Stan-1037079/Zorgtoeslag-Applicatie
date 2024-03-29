@@ -10,3 +10,4 @@ Port 8001 – Objecttype API
 Port 8002 – Open Forms UI 
 Port 5002 – Flask UI 
 Port 5000 – Flask Logica 
+Port ? – Postgre Database
