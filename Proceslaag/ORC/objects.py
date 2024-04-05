@@ -2,6 +2,10 @@ import requests
 from conf import urls_tokens
 conf = urls_tokens()
 from json_schema_test import test_data, json_schema_koek
+from objecttypes import getAllObjecttypes
+import json
+from object_metadata import object_metadata
+
 # DRY: Don't Repeat Yourself
 
 def getObject(requestUrl):
@@ -14,42 +18,53 @@ def getObject(requestUrl):
     for i in dataJson['results']:
         print(str(i["record"]["data"]))
 
+def getAllObjects(headers = {"Authorization": "Token " + conf['token_objects'], "Content-Type": "application/json"}):
+    
+    response = requests.get(f"{conf['base_url_objects']}/objects", headers=headers)
+    if response.status_code == 200:
+        
+        objects = response.json()
+        print(json.dumps(objects, indent=2))
+
 def putObject(requestUrl, data):
     data = requests.get(requestUrl, headers={'Authorization': 'Token cd63e158f3aca276ef284e3033d020a22899c728'} )
     print("Hello World")
 
-def postObjecttype(objecttype_data, json_schema, headers ={"Authorization": "Token " + conf['token_object_types'], "Content-Type": "application/json"}):
-    #base_url_object_types = "http://localhost:8001/api/v1"
-    #conf["base_url_object_types"]
-    # Objecttype aanmaken
-    response = requests.post(f"{conf['base_url_object_types']}/objecttypes", headers=headers, json=objecttype_data)
-    if response.status_code == 201:
-        objecttype_url = response.json()["url"]
-        print(f"Objecttype aangemaakt: {objecttype_url}")
-    else:
-        print("Fout bij het aanmaken van objecttype:", response.text)
-        return None
+def postObject(objecttype_uuid, object_data, headers={"Authorization": "Token " + conf['token_objects'], "Content-Type": "application/json", 'Content-Crs': 'EPSG:4326'}):
 
-    # JSON-schema toevoegen
-    # Haalt het UUID van het objecttype op uit de URL en pakt de laatste element van de lijst (het UUID)
-    objecttype_uuid = objecttype_url.split('/')[-1]
-    response = requests.post(f"{conf['base_url_object_types']}/objecttypes/{objecttype_uuid}/versions", headers=headers, json={"status": "draft", "jsonSchema": json_schema})
-    if response.status_code == 201:
-        version_url = response.json()["url"]
-        print(f"Versie aangemaakt voor objecttype: {version_url}")
-        return objecttype_uuid
-    else:
-        print("Fout bij het toevoegen van JSON-schema aan objecttype:", response.text)
-        return None
-
-def Postobject(token_objects, objecttype_uuid, object_data,base_url_objects):
-    base_url = "http://localhost:8000/api/v2"
-    headers = {
-        "Authorization": f"Token {token_objects}",
-        "Content-Type": "application/json"
+    # Voeg het UUID van het objecttype toe aan de data
+    object_data = {
+        "type": f"{conf['base_url_object_types']}/objecttypes/{objecttype_uuid}",
+        "record": object_data
     }
+
     # Object aanmaken binnen het objecttype
-    response = requests.post(f"{base_url}/objects", headers=headers, json=object_data)
+    response = requests.post(f"{conf['base_url_objects']}/objects", headers=headers, json=object_data)
+
+    if response.status_code == 201:
+        object_url = response.json()["url"]
+        print(f"Object aangemaakt: {object_url}")
+    else:
+        print("Fout bij het aanmaken van object:", response.text)
+
+def postObjecty(objecttype_uuid, object_data):
+    headers_for_get = {"Authorization": "Token " + conf['token_object_types'], "Content-Type": "application/json"}
+    headers_for_post = {"Authorization": "Token " + conf['token_objects'], "Content-Type": "application/json", 'Content-Crs': 'EPSG:4326'}
+
+    responses = requests.get(f"{conf['base_url_object_types']}/objecttypes/{objecttype_uuid}", headers=headers_for_get)
+    if responses.status_code == 200:
+        objecttype_url = responses.json()["url"]
+        print(f"Objecttype opgehaald: {objecttype_url}")
+
+    # Voeg het UUID van het objecttype toe aan de data
+    object_data = {
+        "type": objecttype_url,
+        "record": object_data
+    }
+
+    # Object aanmaken binnen het objecttype
+    response = requests.post(f"{conf['base_url_objects']}/objects", headers=headers_for_post, json=object_data)
+
     if response.status_code == 201:
         object_url = response.json()["url"]
         print(f"Object aangemaakt: {object_url}")
@@ -57,4 +72,6 @@ def Postobject(token_objects, objecttype_uuid, object_data,base_url_objects):
         print("Fout bij het aanmaken van object:", response.text)
 
 #getObject('/objects?type=http://localhost:8001/api/v1/objecttypes/feeaa795-d212-4fa2-bb38-2c34996e5702')
-#postObjecttype(test_data, json_schema_koek)
+#getAllObjecttypes()
+getAllObjects()
+#postObjecty("f0d053fb-e00d-40e5-a810-56a8ae89901d", object_metadata,)
