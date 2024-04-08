@@ -73,5 +73,5 @@ def postObjecty(objecttype_uuid, object_data):
 
 #getObject('/objects?type=http://localhost:8001/api/v1/objecttypes/feeaa795-d212-4fa2-bb38-2c34996e5702')
 #getAllObjecttypes()
-getAllObjects()
-#postObjecty("f0d053fb-e00d-40e5-a810-56a8ae89901d", object_metadata,)
+#getAllObjects()
+#postObjecty("f0d053fb-e00d-40e5-a810-56a8ae89901d", object_metadata)

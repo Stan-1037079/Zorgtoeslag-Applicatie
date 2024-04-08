@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for, session, flash
 import os
-from forms import InputForm
+#from forms import InputForm
 from dotenv import load_dotenv
+import requests
+from flask_cors import CORS
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
@@ -9,6 +11,8 @@ app.secret_key = os.urandom(24)
 
 USERNAME = 'admin'
 PASSWORD = 'password'
+
+CORS(app, origins="http://localhost8002")
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -34,14 +38,18 @@ def home():
         return redirect(url_for('login'))
     return render_template('home.html')
 
-@app.route('/form_page', methods=['GET', 'POST'])
-def form_page():
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
-    form = InputForm()
-    if form.validate_on_submit():
-        return redirect(url_for('subsidie'))  
-    return render_template('form_page.html', form=form)
+@app.route('/iframetest')
+def test():
+    return render_template('iframetest.html')
+
+#@app.route('/form_page', methods=['GET', 'POST'])
+#def form_page():
+#    if not session.get('logged_in'):
+#        return redirect(url_for('login'))
+#    form = InputForm()
+#    if form.validate_on_submit():
+#        return redirect(url_for('subsidie'))  
+#    return render_template('form_page.html', form=form)
 
 @app.route('/subsidie')
 def subsidie():

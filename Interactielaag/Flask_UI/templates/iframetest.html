@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="utf-8">
+    <title>Open Formulier</title>
+    <!-- Load the Open Forms SDK stylesheet -->
+    <link rel="stylesheet" href="http://localhost:8002/static/sdk/open-forms-sdk.css" />
+</head>
+<body>
+    <!-- Container for your Open Form -->
+    <div id="openforms-root" data-base-url="http://localhost:8002/api/v2/" data-form-id="5b96c92a-2a06-4242-8e80-e0f2d3e91663" data-base-path="/iframetest"></div>
+
+    <!-- Load the Open Forms SDK script -->
+    <script src="http://localhost:8002/static/sdk/open-forms-sdk.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var targetNode = document.getElementById('openforms-root');
+            var form = new OpenForms.OpenForm(targetNode, {
+                baseUrl: targetNode.dataset.baseUrl,
+                formId: targetNode.dataset.formId,
+                basePath: targetNode.dataset.basePath,
+                // Voeg hier andere configuratieopties toe indien nodig
+            });
+            form.init();
+        });
+    </script>
+</body>
+</html>
