@@ -4,6 +4,15 @@ import os
 from dotenv import load_dotenv
 import requests
 from flask_cors import CORS
+from flask_wtf import CSRFProtect
+import ssl
+
+current_directory = os.path.dirname(os.path.abspath(__file__))
+cert_path = os.path.join(current_directory, 'localhost+2.pem')
+key_path = os.path.join(current_directory, 'localhost+2-key.pem')
+
+context = ssl.SSLContext(ssl.PROTOCOL_TLS)
+context.load_cert_chain(cert_path, key_path)
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
@@ -12,7 +21,9 @@ app.secret_key = os.urandom(24)
 USERNAME = 'admin'
 PASSWORD = 'password'
 
-CORS(app, origins="http://localhost8002")
+#CORS(app, resources={r"/iframetest/*": {"origins": ["http://localhost:8002"]}})
+#csrf = CSRFProtect(app)
+#app.config['CSRF_TRUSTED_ORIGINS'] = ["http://localhost:8002"]
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -64,4 +75,4 @@ def output():
     return render_template('output.html')
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5002, debug=True)
+    app.run(host="0.0.0.0", port=5002, debug=True, ssl_context=context)
