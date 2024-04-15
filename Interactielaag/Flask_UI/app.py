@@ -4,27 +4,39 @@ import os
 from dotenv import load_dotenv
 import requests
 from flask_cors import CORS
-from flask_wtf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect
 import ssl
+from flask_wtf.csrf import generate_csrf
+load_dotenv()
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
 cert_path = os.path.join(current_directory, 'localhost+2.pem')
 key_path = os.path.join(current_directory, 'localhost+2-key.pem')
 
-context = ssl.SSLContext(ssl.PROTOCOL_TLS)
-context.load_cert_chain(cert_path, key_path)
+#context = ssl.SSLContext(ssl.PROTOCOL_TLS)
+#context.load_cert_chain(cert_path, key_path)
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
-app.secret_key = os.urandom(24)
+context = ssl.SSLContext(ssl.PROTOCOL_TLS)
+context.load_cert_chain(cert_path, key_path)
 
-USERNAME = 'admin'
-PASSWORD = 'password'
+USERNAME = os.getenv('USERNAME')
+PASSWORD = os.getenv('PASSWORD')
 
-#CORS(app, resources={r"/iframetest/*": {"origins": ["http://localhost:8002"]}})
-#csrf = CSRFProtect(app)
-#app.config['CSRF_TRUSTED_ORIGINS'] = ["http://localhost:8002"]
+CORS(app)
+csrf = CSRFProtect(app)
+app.secret_key = os.getenv('SECRET_KEY')
+app.config['SECRET_KEY'] = app.secret_key
+csrf.init_app(app)
 
+@app.before_request
+def before_request():
+    if request.url.startswith('http://'):
+        url = request.url.replace('http://', 'https://', 1)
+        code = 301
+        return redirect(url, code=code)
+    
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':

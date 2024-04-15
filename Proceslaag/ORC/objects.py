@@ -51,7 +51,7 @@ def postObjecty(objecttype_uuid, object_data):
     headers_for_get = {"Authorization": "Token " + conf['token_object_types'], "Content-Type": "application/json"}
     headers_for_post = {"Authorization": "Token " + conf['token_objects'], "Content-Type": "application/json", 'Content-Crs': 'EPSG:4326'}
 
-    responses = requests.get(f"{conf['base_url_object_types']}/objecttypes/{objecttype_uuid}", headers=headers_for_get)
+    responses = requests.get(f"{conf['base_url_object_types_internal']}/objecttypes/{objecttype_uuid}", headers=headers_for_get)
     if responses.status_code == 200:
         objecttype_url = responses.json()["url"]
         print(f"Objecttype opgehaald: {objecttype_url}")
