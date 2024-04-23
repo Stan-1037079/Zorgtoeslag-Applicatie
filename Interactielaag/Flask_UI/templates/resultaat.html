@@ -7,9 +7,11 @@
     <title>Resultaten</title>
 </head>
 <body>
-    <h1>Resultaten gebaseerd op jouw inkomen</h1>
-    <p>Inkomen: {{ data.Inkomen }}</p>
-    <p>Vermogen: {{ data.Vermogen }}</p>
-    <p>Zorgtoeslag: {{ data.Zorgtoeslag }}</p>
+    <div class="results-container">
+        <h1>Resultaten gebaseerd op jouw inkomen</h1>
+        <p class="result-item">Inkomen: <span>{{ data['Inkomen'] }}</span></p>
+        <p class="result-item">Vermogen: <span>{{ data['Vermogen'] }}</span></p>
+        <p class="result-item">Zorgtoeslag: <span>{{ data['Zorgtoeslag'] }}</span></p>
+    </div>
 </body>
 </html>
