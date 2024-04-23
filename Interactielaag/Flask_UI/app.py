@@ -24,11 +24,31 @@ def getObjectsZorgtoeslag(headers = {"Authorization": "Token " + confi['token_ob
     
     response = requests.get(f"{confi['base_url_objects_zorgtoeslag']}", headers=headers)
     if response.status_code == 200:
-        
-        objects = response.json()
-        print(json.dumps(objects, indent=2))
-
+        return response.json()
+        #objects = response.json()
+        #print(json.dumps(objects, indent=2))
+    return None
 #getObjectsZorgtoeslag()
+
+def find_closest_income(income, data, partner_confirmed, age_confirmed, user_assets):
+    closest = None
+    min_diff = float('inf')
+    for item in data:
+        record_data = item['record']['data']
+        if record_data['Toeslagpartner?'] == partner_confirmed and \
+           record_data['18 jaar of ouder?'] == age_confirmed and \
+           record_data['Vermogen'] >= user_assets:
+            income_diff = abs(record_data['Inkomen'] - income)
+            if income_diff < min_diff:
+                min_diff = income_diff
+                closest = item
+
+    if closest is None:
+        print("Geen geschikte data gevonden voor de gegeven criteria.")
+        return None
+
+    return closest
+
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
@@ -108,7 +128,21 @@ def form_page():
         return redirect(url_for('login'))
     form = InputForm()
     if request.method == 'POST' and form.validate_on_submit():
-        return redirect(url_for('resultaat'))
+        age_confirmed = 'ja' if form.age_confirmation.data else 'nee'
+        partner_confirmed = 'ja' if form.partner_confirmation.data else 'nee'
+        annual_income = int(round(form.annual_income.data))
+        assets = int(round(form.assets.data))
+
+        api_data = getObjectsZorgtoeslag()
+        if api_data:
+            closest_data = find_closest_income(annual_income, api_data, partner_confirmed, age_confirmed, assets)
+            if closest_data:
+                session['result_data'] = closest_data['record']['data']
+                return redirect(url_for('resultaat'))
+            else:
+                return render_template('geen_zorgtoeslag.html')
+        else:
+            return render_template('error.html', message="Fout bij het ophalen van de data.")
     return render_template('form_page.html', form=form)
 
 @app.route('/subsidie')
@@ -121,7 +155,10 @@ def subsidie():
 def resultaat():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
-    return render_template('resultaat.html')
+    data = session.get('result_data', {})
+    if not data:
+        return redirect(url_for('geen_zorgtoeslag'))
+    return render_template('resultaat.html', data=data)
 
 @app.route('/geen_zorgtoeslag')
 def geen_zorgtoeslag():
