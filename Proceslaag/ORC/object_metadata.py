@@ -3,6 +3,6 @@ object_metadata = {
     "startAt": "2024-04-04", 
     "data": {  
         "smaak": "vies",
-        "aantal": "20"
+        "aantal": 20
     }
 }

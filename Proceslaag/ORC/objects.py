@@ -47,23 +47,27 @@ def postObject(objecttype_uuid, object_data, headers={"Authorization": "Token " 
     else:
         print("Fout bij het aanmaken van object:", response.text)
 
-def postObjecty(objecttype_uuid, object_data):
-    headers_for_get = {"Authorization": "Token " + conf['token_object_types'], "Content-Type": "application/json"}
+def postObjecty(objecttype_uuid, object_data2):
+    # headers_for_get = {"Authorization": "Token " + conf['token_object_types'], "Content-Type": "application/json"}
     headers_for_post = {"Authorization": "Token " + conf['token_objects'], "Content-Type": "application/json", 'Content-Crs': 'EPSG:4326'}
 
-    responses = requests.get(f"{conf['base_url_object_types_internal']}/objecttypes/{objecttype_uuid}", headers=headers_for_get)
-    if responses.status_code == 200:
-        objecttype_url = responses.json()["url"]
-        print(f"Objecttype opgehaald: {objecttype_url}")
+    # responses = requests.get(f"{conf['base_url_object_types']}/objecttypes/{objecttype_uuid}", headers=headers_for_get)
+    # if responses.status_code == 200:
+    #     objecttype_url = responses.json()["url"]
+    #     print(f"Objecttype opgehaald: {objecttype_url}")
 
     # Voeg het UUID van het objecttype toe aan de data
     object_data = {
-        "type": objecttype_url,
-        "record": object_data
+        "type": conf["base_url_object_types"] + "/objecttypes/f0d053fb-e00d-40e5-a810-56a8ae89901d",
+        "record": object_data2
     }
-
+    print(f"{conf['base_url_objects']}/objects")
+    print(object_data2)
     # Object aanmaken binnen het objecttype
     response = requests.post(f"{conf['base_url_objects']}/objects", headers=headers_for_post, json=object_data)
+    print("-------")
+
+    print(object_data)
 
     if response.status_code == 201:
         object_url = response.json()["url"]
@@ -74,4 +78,4 @@ def postObjecty(objecttype_uuid, object_data):
 #getObject('/objects?type=http://localhost:8001/api/v1/objecttypes/feeaa795-d212-4fa2-bb38-2c34996e5702')
 #getAllObjecttypes()
 #getAllObjects()
-postObjecty("f0d053fb-e00d-40e5-a810-56a8ae89901d", object_metadata)
+#postObjecty("f0d053fb-e00d-40e5-a810-56a8ae89901d", object_metadata)

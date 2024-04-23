@@ -1,9 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, EmailField, SubmitField
-from wtforms.validators import DataRequired, Email
-import email_validator
+from wtforms import StringField, BooleanField, IntegerField, SubmitField
+from wtforms.validators import DataRequired, InputRequired
 
 class InputForm(FlaskForm):
-    user_input = StringField('Enter name:', validators=[DataRequired()])
-    description = TextAreaField('Enter surname:', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    age_confirmation = BooleanField("Bent u 18 jaar of ouder?", validators=[DataRequired()])
+    partner_confirmation = BooleanField("Hebt u een toeslagpartner?", validators=[DataRequired()])
+    annual_income = IntegerField("Wat is uw jaarinkomen?", validators=[InputRequired()])
+    assets = IntegerField("Wat is uw vermogen?", validators=[InputRequired()])
+    submit = SubmitField("Verzenden")

@@ -3,16 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_login.css') }}"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_login.css') }}">
     <title>Form Page</title>
 </head>
 <body>
     <div class="container">
-        <form action="" method="post">
+        <form action="{{ url_for('form_page') }}" method="post">
             {{ form.hidden_tag() }}
-            <div>{{ form.user_input.label }} {{ form.user_input() }}</div>
-            <div>{{ form.description.label }} {{ form.description() }}</div>
-            <div>{{ form.submit(class='button') }}</div> 
+            <div>
+                {{ form.age_confirmation.label }}
+                {{ form.age_confirmation() }} 
+            </div>
+            <div>
+                {{ form.partner_confirmation.label }}
+                {{ form.partner_confirmation() }} 
+            </div>
+            <div>
+                {{ form.annual_income.label }}
+                {{ form.annual_income() }}
+            </div>
+            <div>
+                {{ form.assets.label }}
+                {{ form.assets() }}
+            </div>
+            <div>
+                {{ form.submit(class='button') }}
+            </div>
         </form>
         <div class="logout-container">
             <form action="/logout" method="get">
@@ -21,6 +37,7 @@
         </div>
         <div class='goBack-container'>
             <button class="button" onclick="goBack()">Go Back</button>
+        </div>
     </div>
 
     <script>
@@ -30,4 +47,3 @@
     </script>
 </body>
 </html>
-
