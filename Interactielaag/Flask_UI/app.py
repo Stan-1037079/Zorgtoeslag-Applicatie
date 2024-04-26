@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for, session, flash
+import sys
 import os
 from forms import InputForm
 from dotenv import load_dotenv
@@ -7,11 +8,11 @@ from flask_cors import CORS, cross_origin
 from flask_wtf.csrf import CSRFProtect
 import ssl
 from flask_wtf.csrf import generate_csrf
-from confi import zorgtoeslagurl
 import json
 load_dotenv()
-
-confi = zorgtoeslagurl()
+sys.path.append('./')
+from Proceslaag.ORC.conf import urls_tokens
+conf = urls_tokens()
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
 cert_path = os.path.join(current_directory, 'localhost+2.pem')
@@ -20,15 +21,12 @@ key_path = os.path.join(current_directory, 'localhost+2-key.pem')
 #context = ssl.SSLContext(ssl.PROTOCOL_TLS)
 #context.load_cert_chain(cert_path, key_path)
 
-def getObjectsZorgtoeslag(headers = {"Authorization": "Token " + confi['token_objects'], "Content-Type": "application/json"}):
+def getObjectsZorgtoeslag(headers = {"Authorization": "Token " + conf['token_objects'], "Content-Type": "application/json"}):
     
-    response = requests.get(f"{confi['base_url_objects_zorgtoeslag']}", headers=headers)
+    response = requests.get(f"{conf['base_url_objects_zorgtoeslag']}", headers=headers)
     if response.status_code == 200:
         return response.json()
-        #objects = response.json()
-        #print(json.dumps(objects, indent=2))
     return None
-#getObjectsZorgtoeslag()
 
 def find_closest_income(income, data, partner_confirmed, age_confirmed, user_assets):
     closest = None

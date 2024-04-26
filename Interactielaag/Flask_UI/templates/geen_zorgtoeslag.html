@@ -7,7 +7,23 @@
     <title>Geen Zorgtoeslag</title>
 </head>
 <body>
-    <h1>Je hebt geen recht op zorgtoeslag</h1>
-    <p>Je voldoet niet aan de criteria voor zorgtoeslag.</p>
+    <div class="centered-container">
+        <h1>Je hebt geen recht op zorgtoeslag</h1>
+        <p>Je voldoet niet aan de criteria voor zorgtoeslag.</p>
+    </div>
+    <div class="logout-container">
+        <form action="/logout" method="get">
+            <button type="submit" class="button">Logout</button>   
+        </form>
+    </div>
+    <div class='goBack-container'>
+        <button class="button" onclick="goBack()">Go Back</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 </body>
 </html>
