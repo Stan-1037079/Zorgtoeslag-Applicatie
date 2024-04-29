@@ -134,6 +134,13 @@ def form_page():
         annual_income = int(round(form.annual_income.data))
         assets = int(round(form.assets.data))
 
+        session['user_input'] = {
+            'age_confirmed': age_confirmed,
+            'partner_confirmed': partner_confirmed,
+            'annual_income': annual_income,
+            'assets': assets
+        }
+
         api_data = getObjectsZorgtoeslag()
         if api_data:
             closest_data = find_closest_income(annual_income, api_data, partner_confirmed, age_confirmed, assets)
@@ -157,9 +164,11 @@ def resultaat():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
     data = session.get('result_data', {})
+    user_input = session.get('user_input', {}) 
     if not data:
         return redirect(url_for('geen_zorgtoeslag'))
-    return render_template('resultaat.html', data=data)
+    return render_template('resultaat.html', data=data, user_input=user_input)
+
 
 @app.route('/geen_zorgtoeslag')
 def geen_zorgtoeslag():
