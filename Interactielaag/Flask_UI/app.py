@@ -18,9 +18,6 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 cert_path = os.path.join(current_directory, 'localhost+2.pem')
 key_path = os.path.join(current_directory, 'localhost+2-key.pem')
 
-#context = ssl.SSLContext(ssl.PROTOCOL_TLS)
-#context.load_cert_chain(cert_path, key_path)
-
 def getObjectsZorgtoeslag(headers = {"Authorization": "Token " + conf['token_objects'], "Content-Type": "application/json"}):
     
     response = requests.get(f"{conf['base_url_objects_zorgtoeslag']}", headers=headers)
@@ -119,6 +116,12 @@ def testpage():
 @csrf.exempt
 def test():
     return render_template('iframetest.html')
+
+@app.route('/zorgtoeslag_voorwaarden')
+def zorgtoeslag_voorwaarden():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    return render_template('zorgtoeslag_voorwaarden.html')
 
 @app.route('/form_page', methods=['GET', 'POST'])
 def form_page():

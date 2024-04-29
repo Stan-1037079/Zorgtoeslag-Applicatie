@@ -40,6 +40,12 @@ button[type="submit"], .button {
     cursor: pointer;
 }
 
+.container {
+    display: flex;
+    justify-content: center;
+    width: 100%; 
+}
+
 .centered-container {
     display: flex;
     flex-direction: column;

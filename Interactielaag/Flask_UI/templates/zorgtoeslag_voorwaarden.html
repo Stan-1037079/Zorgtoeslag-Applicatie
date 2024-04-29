@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_login.css') }}">
+    <title>Voorwaarden Zorgtoeslag</title>
+</head>
+<body>
+    <div class="content">
+        <h1>Voorwaarden Zorgtoeslag</h1>
+        <h2>In de volgende situaties kunt u geen zorgtoeslag aanvragen:</h2>
+        <ul>
+            <li><strong>Militair:</strong> Als militair in actieve dienst worden uw ziektekosten gedekt door de ziektekostenregeling van het ministerie van Defensie. Omdat u geen zorgverzekering hebt, krijgt u geen zorgtoeslag.</li>
+            <li><strong>Gedetineerd:</strong> Als u wordt gedetineerd, dan betaalt u geen zorgpremie en krijgt u geen zorgtoeslag meer.</li>
+            <li><strong>Gemoedsbezwaard:</strong> Verzekert u zich vanuit uw levensovertuiging of geloof niet tegen ziektekosten? Dan bent u gemoedsbezwaard. Omdat u dan geen premie betaalt voor een zorgverzekering, kunt u geen zorgtoeslag (meer) krijgen.</li>
+            <li><strong>Geen vast adres:</strong> Ja, dat kan. Het adres mag ook een briefadres zijn. Dat is een adres waar u niet woont, maar wel post ontvangt.</li>
+            <li><strong>Wonen, werken of studeren in het buitenland</strong></li>
+            <li><strong>Pensioen of een uitkering uit Nederland:</strong> U kunt dan zorgtoeslag krijgen als u aan de volgende voorwaarden voldoet:
+                <ol>
+                    <li>U woont in een EU-land of in het VK, Liechtenstein, Noorwegen, IJsland, Zwitserland, Bosnië-Herzegovina, Kaapverdië, Macedonië, Marokko, Montenegro, Servië, Tunesië of Turkije.</li>
+                    <li>U ontvangt een wettelijk pensioen of een wettelijke uitkering uit Nederland zoals AOW, ANW, WAO of WIA. Kijk voor informatie op hetcak.nl.</li>
+                    <li>U bent aangemeld bij het CAK en hebt recht op medische zorg in uw woonland. Of u bent gezinslid van iemand voor wie dit geldt.</li>
+                    <li>U hoeft in deze situatie geen Nederlandse zorgverzekering te hebben. U moet wel aan de andere voorwaarden voor zorgtoeslag voldoen. 18+, Uw inkomen ligt onder (gezamenlijke) inkomensgrens en Uw (Gezamenlijke) vermogen is niet te hoog.</li>
+                </ol>
+            </li>
+        </ul>
+        <div class="logout-container">
+            <form action="/logout" method="get">
+                <button type="submit">Logout</button>   
+            </form>
+            <div class="goBack-container">
+                <button class="button" onclick="goBack()">Go Back</button>
+            </div>
+        </div>
+        <div class='container'>
+            <a href="/form_page" class="button">Ga verder</a>
+        </div>
+        <script>
+        function goBack() {
+            window.history.back();
+        }
+        </script>
+    </div>
+</body>
+</html>

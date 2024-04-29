@@ -8,10 +8,10 @@
 </head>
 <body>
     <div class="results-container">
-        <h1>Resultaten gebaseerd op jouw inkomen</h1>
+        <h1>Resultaat gebaseerd op jouw inkomen en vermogen</h1>
         <p class="result-item">Inkomen: <span>{{ data['Inkomen'] }}</span></p>
         <p class="result-item">Vermogen: <span>{{ data['Vermogen'] }}</span></p>
-        <p class="result-item">Zorgtoeslag: <span>{{ data['Zorgtoeslag'] }}</span></p>
+        <p class="result-item">U heeft recht op €<span>{{ data['Zorgtoeslag']  }}</span> zorgtoeslag per maand</p>
     </div>
     <div class="logout-container">
         <form action="/logout" method="get">
