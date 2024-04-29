@@ -17,14 +17,23 @@
             <div>
                 {{ form.partner_confirmation.label }}
                 {{ form.partner_confirmation() }} 
+                <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/toeslagpartner" class="info-link" target="_blank">
+                    <img src="{{ url_for('static', filename='External.png') }}" alt="Meer informatie">
+                </a>
             </div>
             <div>
                 {{ form.annual_income.label }}
                 {{ form.annual_income() }}
+                <a href="https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/toeslagen/hoe_werken_toeslagen/kan_ik_toeslag_krijgen/inkomen/" class="info-link" target="_blank">
+                    <img src="{{ url_for('static', filename='External.png') }}" alt="Meer informatie">
+                </a>
             </div>
             <div>
                 {{ form.assets.label }}
                 {{ form.assets() }}
+                <a href="https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/toeslagen/hoe_werken_toeslagen/kan_ik_toeslag_krijgen/vermogen/" class="info-link" target="_blank">
+                    <img src="{{ url_for('static', filename='External.png') }}" alt="Meer informatie">
+                </a>
             </div>
             <div>
                 {{ form.submit(class='button') }}

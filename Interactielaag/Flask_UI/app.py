@@ -150,7 +150,7 @@ def form_page():
             else:
                 return render_template('geen_zorgtoeslag.html')
         else:
-            return render_template('error.html', message="Fout bij het ophalen van de data.")
+            return render_template('home.html', message="Fout bij het ophalen van de data.")
     return render_template('form_page.html', form=form)
 
 @app.route('/subsidie')

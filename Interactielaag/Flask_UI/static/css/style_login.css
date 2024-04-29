@@ -33,7 +33,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 button[type="submit"], .button {
     width: auto; 
     padding: 10px;
-    background-color: hwb(143 0% 0%);
+    background-color: #00811F;
     color: white;
     border: none;
     border-radius: 4px;
@@ -62,6 +62,11 @@ button[type="submit"], .button {
     justify-content: center;
     width: 100%; 
     padding: 20px; 
+}
+
+.info-link img {
+    height: 15px; 
+    width: 15px; 
 }
 
 .result-item {
