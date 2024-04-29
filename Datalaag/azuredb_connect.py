@@ -1,19 +1,27 @@
 import psycopg2
+from flask import Flask, render_template
 
-conn = psycopg2.connect(
-    dbname='subsidie',
-    user='stan',
-    password='g9jflc1mtXF7H0q2IFF',
-    host='cg1.postgres.database.azure.com',
-    port='5432'
-)
+app = Flask(__name__)
 
-cur = conn.cursor()
+DB_HOST = "cg1.postgres.database.azure.com"
+DB_NAME = "subsidie"
+DB_USER = "stan"
+DB_PASS = "g9jflc1mtXF7H0q2IFF"
+DB_PORT = "5432"
 
-cur.execute('SELECT 1;')
+def get_db_connection():
+    conn = psycopg2.connect(host=DB_HOST, dbname=DB_NAME, user=DB_USER, password=DB_PASS, port=DB_PORT)
+    return conn
 
-print("Succesvol verbonden met de database.")
+@app.route('/')
+def res():
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT id FROM subsidie.test')  
+    data = cur.fetchall()
+    cur.close()
+    conn.close()
+    return render_template('res.html', data=data)
 
-cur.close()
-
-
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5200)

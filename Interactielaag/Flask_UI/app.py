@@ -11,6 +11,7 @@ from flask_wtf.csrf import generate_csrf
 import json
 load_dotenv()
 sys.path.append('./')
+#from Datalaag import azuredb_connect
 from Proceslaag.ORC.conf import urls_tokens
 conf = urls_tokens()
 
@@ -52,6 +53,11 @@ context.load_cert_chain(cert_path, key_path)
 
 USERNAME = os.getenv('USERNAME')
 PASSWORD = os.getenv('PASSWORD')
+DB_HOST = os.getenv('DB_HOST')
+DB_NAME = os.getenv('DB_NAME')
+DB_USER = os.getenv('DB_USER')
+DB_PASS = os.getenv('DB_PASS')
+DB_PORT = os.getenv('DB_PORT')
 
 CORS(app)
 cors = CORS(app, resource={

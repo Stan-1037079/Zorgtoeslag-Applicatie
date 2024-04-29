@@ -7,25 +7,27 @@
     <title>Resultaten</title>
 </head>
 <body>
-    <div class="results-container">
-        <h1>Resultaat gebaseerd op jouw inkomen en vermogen</h1>
-        <p class="result-item">Uw inkomen is €{{ user_input.annual_income }}; u valt binnen de inkomenschaal van €{{ data['Inkomen'] }}</p>
-        <p class="result-item">Uw vermogen is €{{ user_input.assets }}; u komt onder het maximale vermogen van €{{ data['Vermogen'] }}</p>
-        <p class="result-item">U heeft recht op €<span>{{ data['Zorgtoeslag']  }}</span> zorgtoeslag per maand</p>
-    </div>
-    <div class="logout-container">
-        <form action="/logout" method="get">
-            <button type="submit" class="button">Logout</button>   
-        </form>
-    </div>
-    <div class='goBack-container'>
-        <button class="button" onclick="goBack()">Go Back</button>
-    </div>
+    <img src="{{ url_for('static', filename='Mark.png') }}" alt="Header Image" class="header-image">
+    <div class="main-content">
+        <div class="results-container">
+            <h1>Resultaat gebaseerd op jouw inkomen en vermogen</h1>
+            <p class="result-item">Uw inkomen is €{{ user_input.annual_income }}; u valt binnen de inkomenschaal van €{{ data['Inkomen'] }}</p>
+            <p class="result-item">Uw vermogen is €{{ user_input.assets }}; u komt onder het maximale vermogen van €{{ data['Vermogen'] }}</p>
+            <p class="result-item">U heeft recht op €<span>{{ data['Zorgtoeslag']  }}</span> zorgtoeslag per maand</p>
+        </div>
+        <div class="logout-container">
+            <form action="/logout" method="get">
+                <button type="submit" class="button">Logout</button>   
+            </form>
+        </div>
+        <div class='goBack-container'>
+            <button class="button" onclick="goBack()">Go Back</button>
+        </div>
 
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
 </body>
 </html>

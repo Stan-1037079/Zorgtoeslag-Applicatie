@@ -7,17 +7,19 @@
     <title>Homepage</title>
 </head>
 <body>
-    <div class="centered-container"> 
-        <h1>Welkom op deze pagina kunt u de onderstaande toeslagen berekenen:</h1>
-        <div class='container'>
-            <a href="/zorgtoeslag_voorwaarden" class="button">Zorgtoeslag</a>
+    <img src="{{ url_for('static', filename='Mark.png') }}" alt="Header Image" class="header-image">
+    <div class="main-content">
+        <div class="centered-container"> 
+            <h1>Welkom op deze pagina kunt u de onderstaande toeslagen berekenen:</h1>
+            <div class='container'>
+                <a href="/zorgtoeslag_voorwaarden" class="button">Zorgtoeslag</a>
+            </div>
+            <div class="logout-container">
+                <form action="/logout" method="get">
+                    <button type="submit">Logout</button>   
+                </form>
+            </div>
         </div>
-        <div class="logout-container">
-            <form action="/logout" method="get">
-                <button type="submit">Logout</button>   
-            </form>
-        </div>
-    </div>
 </body>
 </html>
 

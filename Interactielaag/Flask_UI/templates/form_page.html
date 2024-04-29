@@ -7,52 +7,54 @@
     <title>Form Page</title>
 </head>
 <body>
-    <div class="container">
-        <form action="{{ url_for('form_page') }}" method="post">
-            {{ form.hidden_tag() }}
-            <div>
-                {{ form.age_confirmation.label }}
-                {{ form.age_confirmation() }} 
-            </div>
-            <div>
-                {{ form.partner_confirmation.label }}
-                {{ form.partner_confirmation() }} 
-                <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/toeslagpartner" class="info-link" target="_blank">
-                    <img src="{{ url_for('static', filename='External.png') }}" alt="Meer informatie">
-                </a>
-            </div>
-            <div>
-                {{ form.annual_income.label }}
-                {{ form.annual_income() }}
-                <a href="https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/toeslagen/hoe_werken_toeslagen/kan_ik_toeslag_krijgen/inkomen/" class="info-link" target="_blank">
-                    <img src="{{ url_for('static', filename='External.png') }}" alt="Meer informatie">
-                </a>
-            </div>
-            <div>
-                {{ form.assets.label }}
-                {{ form.assets() }}
-                <a href="https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/toeslagen/hoe_werken_toeslagen/kan_ik_toeslag_krijgen/vermogen/" class="info-link" target="_blank">
-                    <img src="{{ url_for('static', filename='External.png') }}" alt="Meer informatie">
-                </a>
-            </div>
-            <div>
-                {{ form.submit(class='button') }}
-            </div>
-        </form>
-        <div class="logout-container">
-            <form action="/logout" method="get">
-                <button type="submit" class="button">Logout</button>   
+    <img src="{{ url_for('static', filename='Mark.png') }}" alt="Header Image" class="header-image">
+    <div class="main-content">
+        <div class="container">
+            <form action="{{ url_for('form_page') }}" method="post">
+                {{ form.hidden_tag() }}
+                <div>
+                    {{ form.age_confirmation.label }}
+                    {{ form.age_confirmation() }} 
+                </div>
+                <div>
+                    {{ form.partner_confirmation.label }}
+                    {{ form.partner_confirmation() }} 
+                    <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/toeslagpartner" class="info-link" target="_blank">
+                        <img src="{{ url_for('static', filename='External.png') }}" alt="Meer informatie">
+                    </a>
+                </div>
+                <div>
+                    {{ form.annual_income.label }}
+                    {{ form.annual_income() }}
+                    <a href="https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/toeslagen/hoe_werken_toeslagen/kan_ik_toeslag_krijgen/inkomen/" class="info-link" target="_blank">
+                        <img src="{{ url_for('static', filename='External.png') }}" alt="Meer informatie">
+                    </a>
+                </div>
+                <div>
+                    {{ form.assets.label }}
+                    {{ form.assets() }}
+                    <a href="https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/toeslagen/hoe_werken_toeslagen/kan_ik_toeslag_krijgen/vermogen/" class="info-link" target="_blank">
+                        <img src="{{ url_for('static', filename='External.png') }}" alt="Meer informatie">
+                    </a>
+                </div>
+                <div>
+                    {{ form.submit(class='button') }}
+                </div>
             </form>
+            <div class="logout-container">
+                <form action="/logout" method="get">
+                    <button type="submit" class="button">Logout</button>   
+                </form>
+            </div>
+            <div class='goBack-container'>
+                <button class="button" onclick="goBack()">Go Back</button>
+            </div>
         </div>
-        <div class='goBack-container'>
-            <button class="button" onclick="goBack()">Go Back</button>
-        </div>
-    </div>
 
-    <script>
-    function goBack() {
-        window.history.back();
-    }
-    </script>
+        <script>
+        function goBack() {
+            window.history.back();
+        }
+        </script>
 </body>
 </html>
