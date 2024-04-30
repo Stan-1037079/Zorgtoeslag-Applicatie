@@ -9,11 +9,13 @@ from flask_wtf.csrf import CSRFProtect
 import ssl
 from flask_wtf.csrf import generate_csrf
 import json
+import psycopg2
 load_dotenv()
-sys.path.append('./')
+#sys.path.append('./')
 #from Datalaag.azuredb_connect import get_db_connection
-from Proceslaag.ORC.conf import urls_tokens
-conf = urls_tokens()
+#from Proceslaag.ORC.conf import urls_tokens
+from confies import zorgtoeslagurl
+conf = zorgtoeslagurl()
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
 cert_path = os.path.join(current_directory, 'localhost+2.pem')
@@ -58,6 +60,10 @@ DB_NAME = os.getenv('DB_NAME')
 DB_USER = os.getenv('DB_USER')
 DB_PASS = os.getenv('DB_PASS')
 DB_PORT = os.getenv('DB_PORT')
+
+def get_db_connection():
+    conn = psycopg2.connect(host=DB_HOST, dbname=DB_NAME, user=DB_USER, password=DB_PASS, port=DB_PORT)
+    return conn
 
 CORS(app)
 cors = CORS(app, resource={
@@ -141,17 +147,28 @@ def form_page():
         assets = int(round(form.assets.data))
 
         session['user_input'] = {
-            'age_confirmed': age_confirmed,
-            'partner_confirmed': partner_confirmed,
-            'annual_income': annual_income,
-            'assets': assets
+            '18_jaar_of_ouder': age_confirmed,
+            'Toeslagpartner': partner_confirmed,
+            'Inkomen': annual_income,
+            'Vermogen': assets
         }
-
+        print(session['user_input'])
         api_data = getObjectsZorgtoeslag()
         if api_data:
             closest_data = find_closest_income(annual_income, api_data, partner_confirmed, age_confirmed, assets)
             if closest_data:
+                zorgtoeslag = closest_data['record']['data']['Zorgtoeslag']
                 session['result_data'] = closest_data['record']['data']
+                print(session['result_data'])
+                conn = get_db_connection()
+                cur = conn.cursor()
+                cur.execute("""
+                    INSERT INTO subsidie.gebruikers_data ("18_jaar_of_ouder", "Toeslagpartner", "Inkomen", "Vermogen", "Zorgtoeslag") 
+                    VALUES (%s, %s, %s, %s, %s)
+                """, (age_confirmed, partner_confirmed, annual_income, assets, zorgtoeslag))
+                conn.commit()
+                cur.close()
+                conn.close()
                 return redirect(url_for('resultaat'))
             else:
                 return render_template('geen_zorgtoeslag.html')
