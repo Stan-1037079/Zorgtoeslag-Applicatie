@@ -118,6 +118,17 @@ def home():
         return redirect(url_for('login'))
     return render_template('home.html')
 
+@app.route('/gebruikers_data_zorgtoeslag')
+def gebruikers_data_zorgtoeslag():
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM subsidie.gebruikers_data")
+    data = cur.fetchall()  
+    cur.close()
+    conn.close()
+    
+    return render_template('gebruikers_data_zorgtoeslag.html', data=data)
+
 @app.route('/testpage')
 def testpage():
     if not session.get('logged_in'):
@@ -153,6 +164,20 @@ def form_page():
             'Vermogen': assets
         }
         print(session['user_input'])
+        
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("""
+            INSERT INTO subsidie.gebruikers_data ("18_jaar_of_ouder", "Toeslagpartner", "Inkomen", "Vermogen", "Zorgtoeslag")
+            VALUES (%s, %s, %s, %s, 0)
+        """, (age_confirmed, partner_confirmed, annual_income, assets))
+        conn.commit()
+        
+        if age_confirmed == 'nee':
+            cur.close()
+            conn.close()
+            return render_template('geen_zorgtoeslag.html')
+        
         api_data = getObjectsZorgtoeslag()
         if api_data:
             closest_data = find_closest_income(annual_income, api_data, partner_confirmed, age_confirmed, assets)

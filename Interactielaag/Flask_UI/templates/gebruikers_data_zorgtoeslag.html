@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/style_login.css') }}">
+    <title>Gebruikersdata Zorgtoeslag</title>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='Mark.png') }}" alt="Header Image" class="header-image">
+    <div class="main-content">
+        <div class="centered-container">
+            <h1>Gebruikersdata Zorgtoeslag</h1>
+            <table border="1">
+                <tr>
+                    <th>18 Jaar Of Ouder</th>
+                    <th>Toeslagpartner</th>
+                    <th>Inkomen</th>
+                    <th>Vermogen</th>
+                    <th>Zorgtoeslag</th>
+                </tr>
+                {% for row in data %}
+                <tr>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        <div class="logout-container">
+            <form action="/logout" method="get">
+                <button type="submit" class="button">Logout</button>   
+            </form>
+        </div>
+        <div class='goBack-container'>
+            <button class="button" onclick="goBack()">Go Back</button>
+        </div>
+
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+        <div class="logout-container">
+            <form action="/logout" method="get">
+                <button type="submit" class="button">Logout</button>   
+            </form>
+        </div>
+        <div class='goBack-container'>
+            <button class="button" onclick="goBack()">Go Back</button>
+        </div>
+
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+</body>
+</html>
