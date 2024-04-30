@@ -11,7 +11,7 @@ from flask_wtf.csrf import generate_csrf
 import json
 load_dotenv()
 sys.path.append('./')
-#from Datalaag import azuredb_connect
+#from Datalaag.azuredb_connect import get_db_connection
 from Proceslaag.ORC.conf import urls_tokens
 conf = urls_tokens()
 
