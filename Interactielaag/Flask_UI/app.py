@@ -11,6 +11,7 @@ from flask_wtf.csrf import generate_csrf
 import json
 import psycopg2
 from wtforms import FormField
+from datetime import datetime
 load_dotenv()
 #sys.path.append('./')
 #from Datalaag.azuredb_connect import get_db_connection
@@ -25,6 +26,13 @@ key_path = os.path.join(current_directory, 'localhost+2-key.pem')
 def getObjectsZorgtoeslag(headers = {"Authorization": "Token " + conf['token_objects'], "Content-Type": "application/json"}):
     
     response = requests.get(f"{conf['base_url_objects_zorgtoeslag']}", headers=headers)
+    if response.status_code == 200:
+        return response.json()
+    return None
+
+def getObjectsKinderbijslag(headers = {"Authorization": "Token " + conf['token_objects'], "Content-Type": "application/json"}):
+    
+    response = requests.get(f"{conf['base_url_objects_kinderbijslag']}", headers=headers)
     if response.status_code == 200:
         return response.json()
     return None
@@ -48,6 +56,9 @@ def find_closest_income(income, data, partner_confirmed, age_confirmed, user_ass
 
     return closest
 
+def calculate_age(birthdate):
+    today = datetime.today()
+    return today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
@@ -217,16 +228,56 @@ def form_page():
 def form_page_kinderbijslag():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
-    
+
     form = InputFormkinderbijslag()
-    
+
     if request.method == 'POST':
+        how_much_children = request.form.get('how_much_children', type=int)
+
+        if how_much_children:
+            while len(form.children) < how_much_children:
+                form.children.append_entry()
+            while len(form.children) > how_much_children:
+                form.children.pop_entry()
+
+        form.process(request.form)
+
         if form.validate_on_submit():
-            how_much_children = form.how_much_children.data
-            children = form.children.data
-            return render_template('kinderbijslag_resultaat.html', form=form, children=children)
+            children_data = form.children.data
+            api_data = getObjectsKinderbijslag()
+
+            if api_data is None:
+                return render_template('form_page_kinderbijslag.html', form=form, error="Fout bij het ophalen van de API-gegevens.")
+
+            total_amount = 0
+            children_results = []
+
+            for child in children_data:
+                birthdate = child['date_of_birth']
+                age = calculate_age(birthdate)
+                matched = False
+                for item in api_data:
+                    if int(item['record']['data']['Leeftijd kind']) == age:
+                        amount = item['record']['data']['Bedrag']
+                        total_amount += amount
+                        children_results.append({
+                            'birthdate': birthdate,
+                            'age': age,
+                            'amount': amount
+                        })
+                        matched = True
+                        break
+                if not matched:
+                    children_results.append({
+                        'birthdate': birthdate,
+                        'age': age,
+                        'amount': 0  
+                    })
+
+            return render_template('kinderbijslag_resultaat.html', form=form, children=children_results, total_amount=total_amount)
         else:
-            form.children.entries = [FormField(ChildForm) for _ in range(form.how_much_children.data)]
+            print("Formulier validatie mislukt.")
+            print(form.errors)
     
     return render_template('form_page_kinderbijslag.html', form=form)
 

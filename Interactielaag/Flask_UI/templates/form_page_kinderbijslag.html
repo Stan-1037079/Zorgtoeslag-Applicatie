@@ -14,7 +14,7 @@
                 const childDiv = document.createElement('div');
                 childDiv.innerHTML = `
                     <label for="children-${i}-date_of_birth">Wat is de geboortedatum van uw kind ${i+1}?</label>
-                    <input type="date" id="children-${i}-date_of_birth" name="children-${i}-date_of_birth-${i}" required>
+                    <input type="date" id="children-${i}-date_of_birth" name="children-${i}-date_of_birth" required>
                 `;
                 childrenContainer.appendChild(childDiv);
             }
@@ -31,6 +31,12 @@
                 {{ form.how_much_children(class="form-control", id="how_much_children", oninput="updateChildrenFields()") }}
             </div>
             <div id="children-container">
+            {% for child in form.children %}
+                <div>
+                    {{ child.date_of_birth.label }}<br>
+                    {{ child.date_of_birth(class="form-control") }}
+                </div>
+            {% endfor %}
             </div>
             <div>
                 {{ form.submit(class="btn btn-primary") }}

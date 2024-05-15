@@ -11,6 +11,16 @@
     <div class="main-content">
         <div class="results-container">
             <h1>Resultaat gebaseerd op uw gegevens</h1>
+            <ul>
+            {% for child in children %}
+                <li>
+                    Geboortedatum: {{ child.birthdate }}<br>
+                    Leeftijd: {{ child.age }} jaar<br>
+                    Bedrag: €{{ child.amount }}
+                </li>
+            {% endfor %}
+            </ul>
+            <h2>Totaal bedrag per kwartaal : €{{ total_amount }}</h2>
         </div>
         <div class="logout-container">
             <form action="/logout" method="get">
