@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_login.css') }}">
+    <title>Voor welke kinderen kinderbijslag?</title>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='Mark.png') }}" alt="Header Image" class="header-image">
+    <div class="main-content">
+        <div class="content">
+            <h1>Voor welke kinderen kinderbijslag?</h1>
+            <h2>U kunt kinderbijslag krijgen voor kinderen die jonger zijn dan 18 jaar. Dit geldt natuurlijk voor uw eigen kind, maar soms ook voor andere kinderen.</h2>
+            <ul>
+                <li><strong>U adopteert een kind:</strong> Adopteert u een kind? Dan kunt u kinderbijslag krijgen. Ook als u een kind uit een ander land dan Nederland adopteert. Meld uw kind aan bij uw gemeente.</li>
+                <li><strong>Een kind van uw partner komt bij u wonen:</strong> U kunt kinderbijslag krijgen als u met uw partner bent getrouwd, een geregistreerd partnerschap heeft of samenwoont. U bepaalt samen wie de kinderbijslag krijgt.
+
+                    Heeft uw partner afspraken gemaakt met de andere ouder van het kind? Is er bijvoorbeeld co-ouderschap? Dan hangt het af van de afspraken welke ouder kinderbijslag krijgt.</li>
+                <li><strong>U heeft een pleegkind:</strong> Heeft u een pleegkind? Dan kunt u kinderbijslag krijgen als u aan de volgende voorwaarden voldoet:
+                    er niemand anders kinderbijslag krijgt voor het kind
+                    u de kosten voor het kind betaalt
+                    u geen pleegvergoeding krijgt
+                    het kind bij u thuis woont
+                    u zorgt voor de dagelijkse opvoeding en verzorging
+                    Heeft het kind nog een natuurlijke ouder? Dan krijgt die ouder meestal kinderbijslag. De ouder kan wel zorgen dat de kinderbijslag op uw rekening wordt betaald. Regel dat samen met de ouder van het kind.</li>
+                <li><strong>U zorgt voor een kind alsof het uw eigen kind is:</strong> Zorgt u voor een kind van iemand anders alsof het uw eigen kind is? Dan kijken we eerst of u de voogdij heeft.</li>
+                <li><strong>U heeft de voogdij:</strong> U kunt kinderbijslag krijgen als:
+
+                    u niet de ouder van het kind bent
+                    u het kind als eigen kind onderhoudt
+                    u geen pleeggeldvergoeding krijgt
+                    niemand anders kinderbijslag krijgt voor het kind
+                    Heeft het kind nog een natuurlijke ouder? Dan krijgt die ouder meestal kinderbijslag. De ouder kan wel zorgen dat de kinderbijslag op uw rekening wordt betaald. Regel dat samen met de ouder van het kind.</li>
+                <li><strong>U heeft niet de voogdij:</strong> U kunt kinderbijslag krijgen als:
+
+                    u niet de ouder van het kind bent
+                    u het kind als eigen kind onderhoudt en verzorgt
+                    niemand anders kinderbijslag krijgt voor het kind
+                    Heeft het kind nog een natuurlijke ouder? Dan krijgt die ouder meestal kinderbijslag. De ouder kan wel zorgen dat de kinderbijslag op uw rekening wordt betaald. Regel dat samen met de ouder van het kind.
+                </li>
+            </ul>
+            <div class="logout-container">
+                <form action="/logout" method="get">
+                    <button type="submit">Logout</button>   
+                </form>
+                <div class="goBack-container">
+                    <button class="button" onclick="goBack()">Go Back</button>
+                </div>
+            </div>
+            <div class='container'>
+                <a href="/form_page_kinderbijslag" class="button">Ga verder</a>
+            </div>
+            <script>
+            function goBack() {
+                window.history.back();
+            }
+            </script>
+        </div>
+</body>
+</html>

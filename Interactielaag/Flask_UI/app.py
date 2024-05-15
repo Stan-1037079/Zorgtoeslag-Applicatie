@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for, session, flash
 import sys
 import os
-from forms import InputForm
+from forms import InputForm, InputFormkinderbijslag, ChildForm
 from dotenv import load_dotenv
 import requests
 from flask_cors import CORS, cross_origin
@@ -10,6 +10,7 @@ import ssl
 from flask_wtf.csrf import generate_csrf
 import json
 import psycopg2
+from wtforms import FormField
 load_dotenv()
 #sys.path.append('./')
 #from Datalaag.azuredb_connect import get_db_connection
@@ -146,6 +147,18 @@ def zorgtoeslag_voorwaarden():
         return redirect(url_for('login'))
     return render_template('zorgtoeslag_voorwaarden.html')
 
+@app.route('/kinderbijslag_voorwaarden')
+def kinderbijslag_voorwaarden():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    return render_template('kinderbijslag_voorwaarden.html')
+
+@app.route('/kinderbijslag_resultaat')
+def kinderbijslag_resultaat():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    return render_template('kinderbijslag_resultaat.html')
+
 @app.route('/form_page', methods=['GET', 'POST'])
 def form_page():
     if not session.get('logged_in'):
@@ -164,19 +177,18 @@ def form_page():
             'Vermogen': assets
         }
         print(session['user_input'])
-        
-        conn = get_db_connection()
-        cur = conn.cursor()
-        cur.execute("""
-            INSERT INTO subsidie.gebruikers_data ("18_jaar_of_ouder", "Toeslagpartner", "Inkomen", "Vermogen", "Zorgtoeslag")
-            VALUES (%s, %s, %s, %s, 0)
-        """, (age_confirmed, partner_confirmed, annual_income, assets))
-        conn.commit()
-        
         if age_confirmed == 'nee':
+            conn = get_db_connection()
+            cur = conn.cursor()
+            cur.execute("""
+                INSERT INTO subsidie.gebruikers_data ("18_jaar_of_ouder", "Toeslagpartner", "Inkomen", "Vermogen", "Zorgtoeslag")
+                VALUES (%s, %s, %s, %s, 0)
+            """, (age_confirmed, partner_confirmed, annual_income, assets))
+            conn.commit()
             cur.close()
             conn.close()
             return render_template('geen_zorgtoeslag.html')
+
         
         api_data = getObjectsZorgtoeslag()
         if api_data:
@@ -200,6 +212,23 @@ def form_page():
         else:
             return render_template('home.html', message="Fout bij het ophalen van de data.")
     return render_template('form_page.html', form=form)
+
+@app.route('/form_page_kinderbijslag', methods=['GET', 'POST'])
+def form_page_kinderbijslag():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    
+    form = InputFormkinderbijslag()
+    
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            how_much_children = form.how_much_children.data
+            children = form.children.data
+            return render_template('kinderbijslag_resultaat.html', form=form, children=children)
+        else:
+            form.children.entries = [FormField(ChildForm) for _ in range(form.how_much_children.data)]
+    
+    return render_template('form_page_kinderbijslag.html', form=form)
 
 @app.route('/subsidie')
 def subsidie():

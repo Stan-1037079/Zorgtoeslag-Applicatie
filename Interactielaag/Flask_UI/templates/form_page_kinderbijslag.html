@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_login.css') }}">
+    <title>Kinderbijslag Formulier</title>
+    <script>
+        function updateChildrenFields() {
+            const numChildren = document.getElementById('how_much_children').value;
+            const childrenContainer = document.getElementById('children-container');
+            childrenContainer.innerHTML = '';
+            
+            for (let i = 0; i < numChildren; i++) {
+                const childDiv = document.createElement('div');
+                childDiv.innerHTML = `
+                    <label for="children-${i}-date_of_birth">Wat is de geboortedatum van uw kind ${i+1}?</label>
+                    <input type="date" id="children-${i}-date_of_birth" name="children-${i}-date_of_birth-${i}" required>
+                `;
+                childrenContainer.appendChild(childDiv);
+            }
+        }
+    </script>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='Mark.png') }}" alt="Header Image" class="header-image">
+    <div class="centered-container">
+        <form method="POST" action="{{ url_for('form_page_kinderbijslag') }}" class="card">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.how_much_children.label }}<br>
+                {{ form.how_much_children(class="form-control", id="how_much_children", oninput="updateChildrenFields()") }}
+            </div>
+            <div id="children-container">
+            </div>
+            <div>
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+        <div class="logout-container">
+            <form action="/logout" method="get">
+                <button type="submit" class="button">Logout</button>   
+            </form>
+        </div>
+        <div class='goBack-container'>
+            <button class="button" onclick="goBack()">Go Back</button>
+        </div>
+    </div>
+
+    <script>
+    function goBack() {
+        window.history.back();
+    }
+    </script>
+</body>
+</html>

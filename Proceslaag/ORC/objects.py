@@ -90,6 +90,23 @@ def getObjectsZorgtoeslagen(headers = {"Authorization": "Token " + conf['token_o
         print(json.dumps(objects, indent=2))
     return None
 
+def getObjectsKinderbijslag(headers = {"Authorization": "Token " + conf['token_objects'], "Content-Type": "application/json"}):
+    
+    response = requests.get(f"{conf['base_url_objects_kinderbijslag']}", headers=headers)
+    if response.status_code == 200:
+        return response.json()
+    return None
+
+def getObjectsKinderbijslagen(headers = {"Authorization": "Token " + conf['token_objects'], "Content-Type": "application/json"}):
+    
+    response = requests.get(f"{conf['base_url_objects_kinderbijslag']}", headers=headers)
+    if response.status_code == 200:
+        objects = response.json()
+        print(json.dumps(objects, indent=2))
+    return None
+
+#getObjectsKinderbijslagen()
+
 #getObjectsZorgtoeslagen()
 #getObject('/objects?type=http://localhost:8001/api/v1/objecttypes/feeaa795-d212-4fa2-bb38-2c34996e5702')
 #getAllObjecttypes()

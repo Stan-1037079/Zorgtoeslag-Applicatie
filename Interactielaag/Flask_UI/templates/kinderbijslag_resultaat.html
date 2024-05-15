@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_login.css') }}">
+    <title>Resultaten</title>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='Mark.png') }}" alt="Header Image" class="header-image">
+    <div class="main-content">
+        <div class="results-container">
+            <h1>Resultaat gebaseerd op uw gegevens</h1>
+        </div>
+        <div class="logout-container">
+            <form action="/logout" method="get">
+                <button type="submit" class="button">Logout</button>   
+            </form>
+        </div>
+        <div class='goBack-container'>
+            <button class="button" onclick="goBack()">Go Back</button>
+        </div>
+
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+</body>
+</html>

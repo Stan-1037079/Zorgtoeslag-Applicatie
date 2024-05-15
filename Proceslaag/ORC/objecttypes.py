@@ -4,6 +4,7 @@ conf = urls_tokens()
 from json_schema_test import test_data, json_schema_koek
 #from Testen import meta_data, json_schema
 from Zorgtoeslag_json import meta_data_zorg, json_schema_zorg
+from Kinderbijslag_schema import kinderbijslag_meta_data, Kinderbijslag_json_schema
 
 def getAllObjecttypes(headers = {"Authorization": "Token " + conf['token_object_types'], "Content-Type": "application/json"}):
     # Stuur een GET-verzoek naar het endpoint voor alle objecttypes
@@ -94,6 +95,7 @@ def patchObjecttype(url, update_data, headers={"Authorization": "Token " + conf[
 
 #postObjecttype(meta_data, json_schema)
 #postObjecttype(meta_data_zorg, json_schema_zorg)
+#postObjecttype(kinderbijslag_meta_data, Kinderbijslag_json_schema)
 #getAllObjecttypes()
 #getAllObjecttypesUID()
 
