@@ -5,7 +5,7 @@ Objectstype API
 Quickstart voor de installatie van beide componenten 
 https://objects-and-objecttypes-api.readthedocs.io/en/latest/installation/quickstart.html 
 
-Open de repository in visual studio code. 
+Open de repository in visual studio code https://github.com/Municipality-of-Rotterdam/Toeslag-applicatie.
 Navigeer naar de Interactielaag --> Flask_UI
 In de terminal cd Interactielaag, cd Flask_UI
 Voer nu de volgende command in: python app.py
