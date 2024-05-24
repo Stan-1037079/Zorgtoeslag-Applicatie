@@ -1,8 +1,22 @@
-Start de Open formulieren UI 
-Command in windows powershell: Docker Compose -d 
+Vereiste componenten Common Ground:
+Objects API 
+Objectstype API
+
+Quickstart voor de installatie van beide componenten 
+https://objects-and-objecttypes-api.readthedocs.io/en/latest/installation/quickstart.html 
+
+Open de repository in visual studio code. 
+Navigeer naar de Interactielaag --> Flask_UI
+In de terminal cd Interactielaag, cd Flask_UI
+Voer nu de volgende command in: python app.py
+In de terminal verschijnt nu een link om de applicatie te openen
+Link: https://127.0.0.1:5002 
+
 Username: Admin
 Password: Password
-Link: http://127.0.0.1:8000/admin/
+
+Let op applicatie functioneert door de aangemaakte data in de Objects API. 
+Authorization Tokens van de Objects/Objectstype API zijn uniek deze moeten aangepast worden in de code. 
 
 Alle ports die worden gebruikt op het netwerk: 
 Port 8000 – Objects API 
@@ -10,4 +24,4 @@ Port 8001 – Objecttype API
 Port 8002 – Open Forms UI 
 Port 5002 – Flask UI 
 Port 5000 – Flask Logica 
-Port ? – Postgre Database
+Port 5432 – Postgre Database
