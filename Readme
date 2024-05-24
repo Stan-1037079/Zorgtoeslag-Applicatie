@@ -2,6 +2,13 @@ Vereiste componenten Common Ground:
 Objects API 
 Objectstype API
 
+Vereiste Python libraries: 
+Flask
+dotenv
+wtforms
+psycopg2
+flask_cors
+
 Quickstart voor de installatie van beide componenten 
 https://objects-and-objecttypes-api.readthedocs.io/en/latest/installation/quickstart.html 
 
